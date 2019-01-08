@@ -20,7 +20,7 @@ Auth::routes(['register' => false]);
 Route::get('/home', 'HomeController@index')->name('home')->middleware('auth');
 
 // Route Menu Company
-Route::group(['prefix' => 'company'], function(){
+Route::group(['prefix' => 'company', 'middleware' => 'auth'], function(){
 	Route::get('/', 'CompanyController@index')->name('company.index');
 	Route::get('/create', 'CompanyController@create')->name('company.create');
 	Route::post('/store', 'CompanyController@store')->name('company.store');
@@ -31,7 +31,7 @@ Route::group(['prefix' => 'company'], function(){
 });
 
 // Route Menu Employee
-Route::group(['prefix' => 'employee'], function(){
+Route::group(['prefix' => 'employee', 'middleware' => 'auth'], function(){
 	Route::get('/', 'EmployeeController@index')->name('employee.index');
 	Route::get('/create', 'EmployeeController@create')->name('employee.create');
 	Route::post('/store', 'EmployeeController@store')->name('employee.store');
