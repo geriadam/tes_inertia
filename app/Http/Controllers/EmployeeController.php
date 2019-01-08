@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\EmployeeFormRequest;
 use Illuminate\Http\Request;
 use App\Model\Employee;
 use App\Model\Company;
@@ -37,12 +38,8 @@ class EmployeeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(EmployeeFormRequest $request)
     {
-        $validator = Validator::make($request->except('_token'), Employee::rules(), Employee::message());
-        if ($validator->fails()) 
-            return redirect()->route('employee.create')->withErrors($validator)->withInput();
-
         $employee = Employee::create($request->all());
         if($employee){
             $request->session()->flash('success', 'Data berhasil di simpan');
@@ -82,12 +79,8 @@ class EmployeeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(EmployeeFormRequest $request, $id)
     {
-        $validator = Validator::make($request->except('_token'), Employee::rules(), Employee::message());
-        if ($validator->fails()) 
-            return redirect()->route('employee.edit', ["id" => $id])->withErrors($validator)->withInput(); 
-
         $employee = Employee::find($id)->update($request->all());
         if($employee){
             $request->session()->flash('success', 'Data berhasil di update');

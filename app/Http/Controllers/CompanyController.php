@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CompanyFormRequest;
 use Illuminate\Http\Request;
 use App\Model\Company;
 use Validator;
@@ -36,12 +37,8 @@ class CompanyController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CompanyFormRequest $request)
     {
-        $validator = Validator::make($request->except('_token'), Company::rules(), Company::message());
-        if ($validator->fails()) 
-            return redirect()->route('company.create')->withErrors($validator)->withInput();
-
         if($request->has('file')){
             $file_name = Company::upload($request->file('file'));
             $request->request->add(['company_logo' => $file_name]);
@@ -87,12 +84,8 @@ class CompanyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CompanyFormRequest $request, $id)
     {
-        $validator = Validator::make($request->except('_token'), Company::rules(), Company::message());
-        if ($validator->fails()) 
-            return redirect()->route('company.edit', ["id" => $id])->withErrors($validator)->withInput(); 
-
         $company = Company::find($id);
 
         if($request->has('file')){

@@ -13,22 +13,6 @@ class Company extends Model
     const IMAGE_PATH = "public/logo/";
     const IMAGE_STORAGE = "storage/logo/";
 
-    public static function rules()
-    {
-        return [
-			'company_name' => 'required',
-			'file'         => 'required',
-        ];
-    }
-
-    public static function message()
-    {
-        return [
-			'company_name.required' => 'Nama perusahaan harus di isi',
-			'file.required'         => 'Logo harus di isi',
-        ];
-    }
-
     public function employee()
     {
         return $this->hasMany('App\Model\Employee', 'company_id', 'id');
